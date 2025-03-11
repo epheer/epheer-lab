@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Unbounded:wght@200..900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope";
+  --font-head: "Unbounded";
+
+  --color-eph: #00a890;
+  --color-eph-50: #c7f4ed;
+  --color-eph-100: #a8e1db;
+  --color-eph-200: #8adbca;
+  --color-eph-300: #6dc6b6;
+  --color-eph-400: #4eb4a1;
+  --color-eph-500: #00a890;
+  --color-eph-600: #008e78;
+  --color-eph-700: #007460;
+  --color-eph-800: #005b4d;
+  --color-eph-900: #00423a;
+
+  --color-ash: #808080;
+  --color-ash-50: #fcfefd;
+  --color-ash-100: #fafafa;
+  --color-ash-200: #e0e0e0;
+  --color-ash-300: #c0c0c0;
+  --color-ash-400: #a0a0a0;
+  --color-ash-500: #808080;
+  --color-ash-600: #606060;
+  --color-ash-700: #404040;
+  --color-ash-800: #1a1a1a;
+  --color-ash-900: #010203;
+
+  --color-e-red: #a83100;
+  --color-e-blue: #60c4ae;
+  --color-e-green: #00735e;
+
+  --radius-e-sm: 3%;
+  --radius-e-md: 11%;
+  --radius-e-lg: 19%;
+  --radius-e-xl: 27%;
+}
+
+body {
+  @apply bg-ash-100 text-ash-800 overflow-x-hidden scroll-smooth antialiased;
+}
+
+button {
+  @apply cursor-pointer;
+}
+
+.page-enter-active,
+.page-leave-active {
+  @apply transition-all duration-300;
+}
+
+.page-enter-from,
+.page-leave-to {
+  @apply blur-md;
+}

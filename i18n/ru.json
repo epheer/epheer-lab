@@ -1,0 +1,19 @@
+{
+  "brand": {
+    "name": "ЭФИР",
+    "lab": "ЭФИР lab"
+  },
+  "title": {
+    "login": "Вход"
+  },
+  "login": {
+    "username": "Логин",
+    "password": "Пароль",
+    "entrance": "Войти"
+  },
+  "errors": {
+    "default": "Что-то пошло не так",
+    "login": "Ошибка входа",
+    "invalidData": "Неверные данные"
+  }
+}
