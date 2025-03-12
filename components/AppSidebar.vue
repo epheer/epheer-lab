@@ -6,6 +6,7 @@ import { useI18n } from "#imports";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 
 const items = ref<Array<MenuItem>>([
   { label: t("title.dashboard"), route: "/" },
@@ -96,8 +97,7 @@ const filterItemsByRole = (role: string): void => {
 };
 
 onBeforeMount(() => {
-  const user = authStore.getUser;
-  filterItemsByRole(user.role);
+  filterItemsByRole(user.value.role);
 });
 
 const updateSidebarVisibility = (): void => {
@@ -132,7 +132,7 @@ const toggleExpand = (index: number): void => {
       <UiuxToggleBurger :isOpened="isSidebarVisible" @toggle="toggleSidebar" />
       <NuxtLink to="/" class="flex flex-nowrap items-baseline gap-3">
         <BrandLogo class="h-5 md:h-6 w-auto" />
-        <span class="font-sans text-nowrap text-md md:text-lg text-ash-700">
+        <span class="font-sans text-nowrap text-md md:text-lg text-ash-800">
           {{ $t("brand.shortLab") }}</span
         >
       </NuxtLink>
@@ -145,7 +145,7 @@ const toggleExpand = (index: number): void => {
       <ol>
         <li
           v-for="(item, index) in items"
-          :key="index"
+          :key="item.label"
           class="w-full flex items-center justify-between"
         >
           <template v-if="item.route && !item.items">
@@ -180,26 +180,26 @@ const toggleExpand = (index: number): void => {
                     <UiuxToggleExpand
                       :expanded="expandedItems.includes(index)"
                       @click="toggleExpand(index)"
-                      class="text-eph-gray-dark hover:text-eph-black"
+                      class="text-ash-800 hover:text-ash-900"
                     />
                   </div>
                 </div>
               </div>
               <div
                 v-else
-                class="flex justify-between items-center font-medium py-3 px-4 w-full cursor-pointer rounded-2xl border-1 border-ash-200/10 hover:border-ash-200 hover:bg-ash-200 text-eph-gray-dark hover:text-eph-black"
+                class="flex justify-between items-center font-medium py-3 px-4 w-full cursor-pointer rounded-2xl border-1 border-ash-200/10 hover:border-ash-200 hover:bg-ash-200 text-ash-800 hover:text-ash-900"
                 @click="toggleExpand(index)"
               >
-                <span class="text-eph-black">{{ item.label }}</span>
+                <span class="text-ash-900">{{ item.label }}</span>
                 <UiuxToggleExpand
                   :expanded="expandedItems.includes(index)"
-                  class=""
+                  class="text-ash-800 hover:text-ash-900"
                 />
               </div>
               <ul v-if="expandedItems.includes(index)">
                 <li
-                  v-for="(subitem, subIndex) in item.items"
-                  :key="subIndex"
+                  v-for="subitem in item.items"
+                  :key="subitem.label"
                   class="w-full flex items-center justify-between"
                 >
                   <NuxtLink

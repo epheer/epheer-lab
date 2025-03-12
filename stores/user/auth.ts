@@ -4,15 +4,16 @@ import { type AuthResponse } from "~/types/user/AuthResponse";
 import { type IUser } from "~/types/user/IUser";
 import { api } from "~/utils/axios.config";
 
+interface IAuthStore {
+  user: IUser;
+  isAuth: boolean;
+}
+
 export const useAuthStore = defineStore("auth", {
-  state: () => ({
+  state: (): IAuthStore => ({
     user: {} as IUser,
-    isAuth: <boolean>false,
+    isAuth: false,
   }),
-  getters: {
-    getUser: (state) => state.user,
-    getIsAuth: (state) => state.isAuth,
-  },
   actions: {
     async login(login: string, password: string) {
       try {

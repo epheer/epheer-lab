@@ -7,6 +7,7 @@ import { useI18n } from "#imports";
 const { t } = useI18n();
 
 const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 
 const menu = ref<any>(null);
 const isMenuVisible = ref<boolean>(false);
@@ -66,7 +67,7 @@ function onMenuBlur(): void {
     >
       <template #start>
         <span class="inline-flex px-4 pt-3 pb-1 font-bold">
-          {{ authStore.getUser.login || "Логин" }}
+          {{ user.login || "Логин" }}
         </span>
       </template>
       <template #item="{ item, props }">

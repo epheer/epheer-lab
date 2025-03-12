@@ -1,15 +1,19 @@
 import { defineStore } from "pinia";
 
+interface IAppStore {
+  isLoading: boolean;
+}
+
 export const useAppStore = defineStore("app", {
-  state: () => ({
+  state: (): IAppStore => ({
     isLoading: false,
   }),
-  getters: {
-    getIsLoading: (state) => state.isLoading,
-  },
   actions: {
-    toggleLoading() {
-      this.isLoading = !this.isLoading;
+    startLoading() {
+      this.isLoading = true;
+    },
+    stopLoading() {
+      this.isLoading = false;
     },
   },
 });

@@ -2,15 +2,16 @@ import { defineStore } from "pinia";
 import InfoService from "~/services/user/InfoService";
 import { type IInfo } from "~/types/user/IInfo";
 
+interface IInfoStore {
+  userInfo: IInfo;
+  isFetched: boolean;
+}
+
 export const useInfoStore = defineStore("info", {
-  state: () => ({
+  state: (): IInfoStore => ({
     userInfo: {} as IInfo,
     isFetched: false,
   }),
-  getters: {
-    getUserInfo: (state) => state.userInfo,
-    getIsFetched: (state) => state.isFetched,
-  },
   actions: {
     async fetchUserInfo(id: string) {
       try {

@@ -15,7 +15,7 @@ const appStore = useAppStore();
       enter-from-class="opacity-0"
       leave-to-class="opacity-0"
     >
-      <Loading v-if="appStore.getIsLoading" />
+      <Loading v-if="appStore.isLoading" />
     </transition>
   </div>
 </template>

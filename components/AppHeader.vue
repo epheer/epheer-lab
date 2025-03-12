@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { useInfoStore } from "~/stores/user/info";
 
 const infoStore = useInfoStore();
-const { getUserInfo } = storeToRefs(infoStore);
+const { userInfo } = storeToRefs(infoStore);
 </script>
 
 <template>
@@ -11,7 +10,7 @@ const { getUserInfo } = storeToRefs(infoStore);
     <div class="mx-auto px-8">
       <div class="flex h-16 items-center justify-end">
         <div class="flex items-center gap-4">
-          <span class="font-bold">{{ getUserInfo.firstname }}</span>
+          <span class="font-bold">{{ userInfo.firstname }}</span>
           <UserProfileMenu />
         </div>
       </div>

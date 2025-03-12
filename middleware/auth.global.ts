@@ -15,22 +15,23 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   const appStore = useAppStore();
   const infoStore = useInfoStore();
-  appStore.toggleLoading();
-
   const authStore = useAuthStore();
+
+  appStore.startLoading();
+
   if (localStorage.getItem("token")) {
     await authStore.checkAuth();
   }
 
-  if (!authStore.getIsAuth) {
-    appStore.toggleLoading();
+  if (!authStore.isAuth) {
+    appStore.stopLoading();
     return navigateTo("/login");
   }
 
-  if (!infoStore.getIsFetched) {
-    const id = authStore.getUser.id;
+  if (!infoStore.isFetched) {
+    const id = authStore.user.id;
     await infoStore.fetchUserInfo(id);
   }
 
-  appStore.toggleLoading();
+  appStore.stopLoading();
 });

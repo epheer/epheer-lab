@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia";
 import { useInfoStore } from "~/stores/user/info";
 
 const infoStore = useInfoStore();
-const { getUserInfo } = storeToRefs(infoStore);
+const { userInfo } = storeToRefs(infoStore);
 </script>
 
 <template>
@@ -11,6 +11,6 @@ const { getUserInfo } = storeToRefs(infoStore);
     <Title>{{ $t("brand.lab") }}</Title>
   </Head>
   <div>
-    <p>Привет, {{ getUserInfo.firstname }}!</p>
+    <p>Привет, {{ userInfo.firstname }}!</p>
   </div>
 </template>
