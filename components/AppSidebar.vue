@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onBeforeMount, onMounted, onUnmounted } from "vue";
+import { useI18n } from "#imports";
 import { useAuthStore } from "~/stores/user/auth";
 import { UserRole } from "~/constants/roles";
-import { useI18n } from "#imports";
 
 const { t } = useI18n();
 const authStore = useAuthStore();

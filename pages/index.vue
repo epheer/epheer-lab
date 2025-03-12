@@ -7,10 +7,12 @@ const { userInfo } = storeToRefs(infoStore);
 </script>
 
 <template>
-  <Head>
-    <Title>{{ $t("brand.lab") }}</Title>
-  </Head>
   <div>
-    <p>Привет, {{ userInfo.firstname }}!</p>
+    <Head>
+      <Title>{{ $t("brand.lab") }}</Title>
+    </Head>
+    <div>
+      <p>Привет, {{ userInfo.firstname }}!</p>
+    </div>
   </div>
 </template>

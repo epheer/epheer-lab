@@ -54,5 +54,5 @@ button {
 
 .page-enter-from,
 .page-leave-to {
-  @apply blur-md;
+  @apply blur-sm;
 }

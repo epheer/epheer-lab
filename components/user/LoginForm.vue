@@ -2,7 +2,7 @@
 import { navigateTo } from "#app";
 import { useAuthStore } from "~/stores/user/auth";
 import { useToast } from "primevue/usetoast";
-import { loginPattern, passwordComplexity } from "~/constants/regex";
+import { validateLoginData } from "~/utils/login.validator";
 
 const username = defineModel<string>("username", { default: "" });
 const password = defineModel<string>("password", { default: "" });
@@ -11,20 +11,6 @@ const toast = useToast();
 const { t } = useI18n();
 
 const authStore = useAuthStore();
-
-const validateLoginData = (): boolean => {
-  if (!loginPattern.test(username.value)) {
-    showError(t("errors.invalidData"));
-    return false;
-  }
-
-  if (!passwordComplexity.test(password.value)) {
-    showError(t("errors.invalidData"));
-    return false;
-  }
-
-  return true;
-};
 
 const showError = (message: string): void => {
   toast.add({
@@ -38,11 +24,12 @@ const showError = (message: string): void => {
 
 const handleSubmit = async (): Promise<void> => {
   try {
-    if (!validateLoginData()) {
+    if (!validateLoginData(username.value, password.value)) {
+      showError(t("errors.invalidData"));
       return;
     }
     await authStore.login(username.value, password.value);
-    navigateTo("/")
+    navigateTo("/");
   } catch (e: any) {
     showError(e.message || t("errors.default"));
   }
