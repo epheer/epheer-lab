@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { navigateTo } from "#app";
 import { useAuthStore } from "~/stores/user/auth";
 import { useToast } from "primevue/usetoast";
 import { loginPattern, passwordComplexity } from "~/constants/regex";
@@ -41,6 +42,7 @@ const handleSubmit = async (): Promise<void> => {
       return;
     }
     await authStore.login(username.value, password.value);
+    navigateTo("/")
   } catch (e: any) {
     showError(e.message || t("errors.default"));
   }

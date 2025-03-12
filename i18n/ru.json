@@ -1,19 +1,52 @@
 {
   "brand": {
     "name": "ЭФИР",
-    "lab": "ЭФИР lab"
+    "lab": "ЭФИР lab",
+    "shortLab": "LAB"
   },
   "title": {
-    "login": "Вход"
-  },
-  "login": {
-    "username": "Логин",
-    "password": "Пароль",
-    "entrance": "Войти"
+    "login": "Вход",
+    "dashboard": "Дашборд",
+    "settings": "Настройки",
+    "artists": "Артисты",
+    "managers": "Менеджеры",
+    "releases": {
+      "new": "Новый релиз",
+      "all": "Все релизы"
+    },
+    "royalties": {
+      "default": "Роялти",
+      "manage": "Управление роялти"
+    },
+    "contracts": {
+      "default": "Договоры",
+      "register": "Регистрация договора"
+    },
+    "guides": "Инструкции",
+    "users": {
+      "register": "Регистрация",
+      "reset": "Сброс пароля",
+      "all": "Все пользователи"
+    }
   },
   "errors": {
     "default": "Что-то пошло не так",
     "login": "Ошибка входа",
     "invalidData": "Неверные данные"
+  },
+  "menus": {
+    "profile": {
+      "backToSite": "Вернуться на сайт",
+      "logout": "Выйти"
+    },
+    "sidebar": {
+      "releases": "Релизы",
+      "users": "Пользователи"
+    }
+  },
+  "login": {
+    "username": "Логин",
+    "password": "Пароль",
+    "entrance": "Войти"
   }
 }
