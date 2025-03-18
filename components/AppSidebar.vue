@@ -140,7 +140,7 @@ const toggleExpand = (index: number): void => {
     </div>
     <nav
       v-if="isSidebarVisible"
-      class="absolute md:static bg-ash-50 top-16 left-0 z-10 md:z-0 w-full mb-2 rounded-2xl shadow-xl border-solid border-1 border-ash-200"
+      class="absolute md:static bg-ash-50 top-16 left-0 z-10 md:z-0 w-full mb-2 rounded-2xl shadow-e"
     >
       <ol>
         <li

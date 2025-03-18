@@ -4,21 +4,23 @@ import { useToast } from "primevue/usetoast";
 import { UserRole, rolesList } from "~/constants/roles";
 import { validateLoginData } from "~/utils/login.validator";
 import RegisterService from "~/services/user/RegisterService";
-import type { IAuthData, IArtistData, IInfoData } from "~/types/user/IRegister";
+import type { IAuthData, IArtistData, IInfoData, IRegisterForm } from "~/types/user/IRegister";
 
 const toast = useToast();
 const { t } = useI18n();
 
-const login = ref<string>("");
-const password = ref<string>("");
-const role = ref<UserRole>(UserRole.ARTIST);
-const email = ref<string>("");
-const stageName = ref<string>("");
-const surname = ref<string>("");
-const firstname = ref<string>("");
-const patronymic = ref<string>("");
-const contact = ref<string>("");
-const isRegistered = ref<boolean>(false);
+const registerForm = ref<IRegisterForm>({
+  login: "",
+  password: "",
+  role: UserRole.ARTIST,
+  email: "",
+  stageName: "",
+  surname: "",
+  firstname: "",
+  patronymic: "",
+  contact: "",
+  isRegistered: false,
+});
 
 const showError = (message: string): void => {
   toast.add({
@@ -31,7 +33,7 @@ const showError = (message: string): void => {
 };
 
 const validateStep1 = (): boolean => {
-  if (!validateLoginData(login.value, password.value)) {
+  if (!validateLoginData(registerForm.value.login, registerForm.value.password)) {
     showError(t("errors.invalidData"));
     return false;
   }
@@ -39,16 +41,20 @@ const validateStep1 = (): boolean => {
 };
 
 const validateStep2 = (): boolean => {
-  return Object.values(UserRole).includes(role.value);
+  return Object.values(UserRole).includes(registerForm.value.role);
+};
+
+const hasMissingRequiredContactData = (): boolean => {
+  return (
+    !registerForm.value.surname ||
+    !registerForm.value.firstname ||
+    !registerForm.value.contact ||
+    (registerForm.value.role === UserRole.ARTIST && !registerForm.value.stageName)
+  );
 };
 
 const validateStep3 = (): boolean => {
-  if (
-    !surname.value ||
-    !firstname.value ||
-    !contact.value ||
-    (role.value === UserRole.ARTIST && !stageName.value)
-  ) {
+  if (hasMissingRequiredContactData()) {
     showError(t("errors.missingRequiredData"));
     return false;
   }
@@ -58,17 +64,17 @@ const validateStep3 = (): boolean => {
 const handleRegister = async (): Promise<void> => {
   try {
     const authData = <IAuthData>{
-      login: login.value,
-      password: password.value,
-      role: role.value,
-      email: email.value,
+      login: registerForm.value.login,
+      password: registerForm.value.password,
+      role: registerForm.value.role,
+      email: registerForm.value.email,
     };
     const result = await RegisterService.registerUser(authData);
     const userId = result.data.user.id;
 
     await addInfoByUser(userId);
 
-    isRegistered.value = true;
+    registerForm.value.isRegistered = true;
 
     toast.add({
       severity: "success",
@@ -86,14 +92,14 @@ const addInfoByUser = async (id: string): Promise<void> => {
   try {
     const infoData = <IInfoData>{
       id,
-      surname: surname.value,
-      firstname: firstname.value,
-      patronymic: patronymic.value,
-      contact: contact.value,
+      surname: registerForm.value.surname,
+      firstname: registerForm.value.firstname,
+      patronymic: registerForm.value.patronymic,
+      contact: registerForm.value.contact,
     };
     await RegisterService.addInfoAboutUserById(infoData);
 
-    if (role.value === UserRole.ARTIST) {
+    if (registerForm.role === UserRole.ARTIST) {
       await addStageName(id);
     }
   } catch (e: any) {
@@ -105,7 +111,7 @@ const addStageName = async (id: string): Promise<void> => {
   try {
     const artistData = <IArtistData>{
       id,
-      stageName: stageName.value,
+      stageName: registerForm.value.stageName,
     };
     await RegisterService.addStageNameById(artistData);
   } catch (e: any) {
@@ -114,16 +120,16 @@ const addStageName = async (id: string): Promise<void> => {
 };
 
 const clearForm = (): void => {
-  login.value = "";
-  password.value = "";
-  role.value = UserRole.ARTIST;
-  email.value = "";
-  stageName.value = "";
-  surname.value = "";
-  firstname.value = "";
-  patronymic.value = "";
-  contact.value = "";
-  isRegistered.value = false;
+  registerForm.value.login = "";
+  registerForm.value.password = "";
+  registerForm.value.role = UserRole.ARTIST;
+  registerForm.value.email = "";
+  registerForm.value.stageName = "";
+  registerForm.value.surname = "";
+  registerForm.value.firstname = "";
+  registerForm.value.patronymic = "";
+  registerForm.value.contact = "";
+  registerForm.value.isRegistered = false;
 };
 </script>
 
@@ -131,22 +137,22 @@ const clearForm = (): void => {
   <Stepper value="1" linear>
     <StepList>
       <Step value="1"
-        ><span class="hidden lg:block">{{
+      ><span class="hidden lg:block">{{
           $t("registration.loginData")
         }}</span></Step
       >
       <Step value="2"
-        ><span class="hidden lg:block">{{
+      ><span class="hidden lg:block">{{
           $t("registration.role")
         }}</span></Step
       >
       <Step value="3"
-        ><span class="hidden lg:block">{{
+      ><span class="hidden lg:block">{{
           $t("registration.contactInfo")
         }}</span></Step
       >
       <Step value="4"
-        ><span class="hidden lg:block">{{
+      ><span class="hidden lg:block">{{
           $t("registration.confirmData")
         }}</span></Step
       >
@@ -159,10 +165,10 @@ const clearForm = (): void => {
         class="bg-ash-100"
       >
         <UserRegistrationStepLoginData
-          :login="login"
-          :password="password"
-          @update:login="login = $event"
-          @update:password="password = $event"
+          :login="registerForm.login"
+          :password="registerForm.password"
+          @update:login="(value) => (registerForm.login = value)"
+          @update:password="(value) => (registerForm.password = value)"
           @next-step="
             if (validateStep1()) {
               activateCallback('2');
@@ -177,9 +183,9 @@ const clearForm = (): void => {
         class="bg-ash-100"
       >
         <UserRegistrationStepSelectRole
-          :role="role"
+          :role="registerForm.role"
           :roles-list="rolesList(t)"
-          @update:role="role = $event"
+          @update:role="(value) => (registerForm.role = value)"
           @next-step="
             if (validateStep2()) {
               activateCallback('3');
@@ -195,19 +201,19 @@ const clearForm = (): void => {
         class="bg-ash-100"
       >
         <UserRegistrationStepContactInfo
-          :stage-name="stageName"
-          :surname="surname"
-          :firstname="firstname"
-          :patronymic="patronymic"
-          :contact="contact"
-          :email="email"
-          :role="role"
-          @update:stage-name="stageName = $event"
-          @update:surname="surname = $event"
-          @update:firstname="firstname = $event"
-          @update:patronymic="patronymic = $event"
-          @update:contact="contact = $event"
-          @update:email="email = $event"
+          :stage-name="registerForm.stageName"
+          :surname="registerForm.surname"
+          :firstname="registerForm.firstname"
+          :patronymic="registerForm.patronymic"
+          :contact="registerForm.contact"
+          :email="registerForm.email"
+          :role="registerForm.role"
+          @update:stage-name="(value) => (registerForm.stageName = value)"
+          @update:surname="(value) => (registerForm.surname = value)"
+          @update:firstname="(value) => (registerForm.firstname = value)"
+          @update:patronymic="(value) => (registerForm.patronymic = value)"
+          @update:contact="(value) => (registerForm.contact = value)"
+          @update:email="(value) => (registerForm.email = value)"
           @next-step="
             if (validateStep3()) {
               activateCallback('4');
@@ -223,16 +229,16 @@ const clearForm = (): void => {
         class="bg-ash-100"
       >
         <UserRegistrationStepConfirmData
-          :login="login"
-          :password="password"
-          :role="role"
-          :email="email"
-          :stage-name="stageName"
-          :surname="surname"
-          :firstname="firstname"
-          :patronymic="patronymic"
-          :contact="contact"
-          :is-registered="isRegistered"
+          :login="registerForm.login"
+          :password="registerForm.password"
+          :role="registerForm.role"
+          :email="registerForm.email"
+          :stage-name="registerForm.stageName"
+          :surname="registerForm.surname"
+          :firstname="registerForm.firstname"
+          :patronymic="registerForm.patronymic"
+          :contact="registerForm.contact"
+          :is-registered="registerForm.isRegistered"
           @prev-step="activateCallback('3')"
           @register="handleRegister"
           @clear-form="clearForm(), activateCallback('1')"

@@ -20,6 +20,6 @@ const password = defineModel<string>("password", { required: true });
       required
       toggleMask
     />
-    <label for="on_label"><slot /></label>
+    <label><slot /></label>
   </FloatLabel>
 </template>

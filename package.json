@@ -8,7 +8,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .js,.ts,.vue --fix",
+    "format": "prettier --write ."
   },
   "author": "Kirill Ratmirov <ratmirovkn@gmail.com>",
   "dependencies": {
@@ -28,6 +30,14 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@primevue/nuxt-module": "^4.2.5"
+    "@nuxt/eslint": "^1.2.0",
+    "@primevue/nuxt-module": "^4.2.5",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-vue": "^10.0.0",
+    "prettier": "^3.5.3"
   }
 }

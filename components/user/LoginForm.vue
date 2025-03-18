@@ -42,6 +42,7 @@ const handleSubmit = async (): Promise<void> => {
       <FloatLabel variant="on">
         <InputText
           v-model="username"
+          id="username"
           type="text"
           minlength="3"
           maxlength="30"
@@ -49,11 +50,12 @@ const handleSubmit = async (): Promise<void> => {
           autofocus
           required
         />
-        <label for="on_label">{{ $t("login.username") }}</label>
+        <label for="username">{{ $t("login.username") }}</label>
       </FloatLabel>
       <FloatLabel variant="on" class="w-full">
         <Password
           v-model="password"
+          id="password"
           type="password"
           minlength="8"
           maxlength="96"
@@ -62,11 +64,12 @@ const handleSubmit = async (): Promise<void> => {
           fluid
           required
         />
-        <label for="on_label">{{ $t("login.password") }}</label>
+        <label for="password">{{ $t("login.password") }}</label>
       </FloatLabel>
     </div>
-    <UiuxGradientButton type="submit">
+    <UiuxGradientButton type="submit" stretch>
       {{ $t("login.entrance") }}
     </UiuxGradientButton>
   </form>
 </template>
+sW

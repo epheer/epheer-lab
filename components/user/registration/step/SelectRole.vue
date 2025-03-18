@@ -17,7 +17,7 @@ const localRole = defineModel<UserRole>("role", {
 <template>
   <div class="flex flex-col lg:h-48">
     <div
-      class="bg-ash-50 border-1 border-solid border-ash-200 rounded-2xl shadow-xl py-4 px-2 sm:p-4 lg:p-2 flex-auto flex flex-col justify-center items-center gap-2 font-medium text-center"
+      class="bg-ash-50 rounded-2xl shadow-e py-4 px-2 sm:p-4 lg:p-2 flex-auto flex flex-col justify-center items-center gap-2 font-medium text-center"
     >
       <div class="flex justify-center items-center mb-2">
         <span class="font-light text-ash-700">{{

@@ -11,25 +11,36 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+function shouldHandleAuthError(error: any): boolean {
+  return (
+    error.response?.status === 401 &&
+    error.config &&
+    !error.config._isRetry
+  );
+}
+
 api.interceptors.response.use(
   (config) => {
     return config;
   },
   async (error) => {
     const originalRequest = error.config;
-    if (
-      error.response.status == 401 &&
-      error.config &&
-      !error.config._isRetry
-    ) {
+
+    if (shouldHandleAuthError(error)) {
+      originalRequest._isRetry = true;
+
       try {
-        const response = await api.get<AuthResponse>("/auth/refresh");
-        localStorage.setItem("token", response.data.accessToken);
+        const response = await axios.get<AuthResponse>(
+          `https://api.epheer.ru/v1/auth/refresh`, { withCredentials: true },
+        );
+
+        localStorage.setItem('token', response.data.accessToken);
         return api.request(originalRequest);
       } catch (e) {
-        console.log("Аутентификация не пройдена");
+        console.log('Аутентификация не пройдена');
       }
     }
+
     throw error;
   }
 );

@@ -13,7 +13,7 @@ const localPassword = defineModel<string>("password", { required: true });
 <template>
   <div class="flex flex-col lg:h-48">
     <div
-      class="bg-ash-50 border-1 border-solid border-ash-200 rounded-2xl shadow-xl p-6 sm:p-4 lg:p-2 flex-auto flex flex-col sm:flex-row md:flex-col lg:flex-row justify-center items-center sm:gap-4 md:gap-0 lg:gap-4 font-medium"
+      class="bg-ash-50 rounded-2xl shadow-e p-6 sm:p-4 lg:p-2 flex-auto flex flex-col sm:flex-row md:flex-col lg:flex-row justify-center items-center sm:gap-4 md:gap-0 lg:gap-4 font-medium"
     >
       <div class="sm:max-w-3/5 sm:order-last md:order-1 lg:order-last">
         <p class="font-light text-ash-700">
@@ -37,7 +37,7 @@ const localPassword = defineModel<string>("password", { required: true });
             fluid
             required
           />
-          <label for="on_label">{{ $t("login.username") }}</label>
+          <label>{{ $t("login.username") }}</label>
         </FloatLabel>
         <UiuxInputNewPassword
           :password="localPassword"

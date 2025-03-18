@@ -24,7 +24,7 @@ const localContact = defineModel<string>("contact", { required: true });
 <template>
   <div class="flex flex-col lg:h-48">
     <div
-      class="bg-ash-50 border-1 border-solid border-ash-200 rounded-2xl shadow-xl p-6 sm:p-4 lg:p-2 flex-auto flex flex-col justify-center items-center gap-2 font-medium text-center"
+      class="bg-ash-50 rounded-2xl shadow-e p-6 sm:p-4 lg:p-2 flex-auto flex flex-col justify-center items-center gap-2 font-medium text-center"
     >
       <div class="flex justify-center items-center">
         <span class="font-light text-ash-700">{{
@@ -42,7 +42,7 @@ const localContact = defineModel<string>("contact", { required: true });
               autocomplete="off"
               required
             />
-            <label for="on_label">{{ $t("info.surname") }}</label>
+            <label>{{ $t("info.surname") }}</label>
           </FloatLabel>
           <FloatLabel variant="on">
             <InputText
@@ -51,7 +51,7 @@ const localContact = defineModel<string>("contact", { required: true });
               autocomplete="off"
               required
             />
-            <label for="on_label">{{ $t("info.firstname") }}</label>
+            <label>{{ $t("info.firstname") }}</label>
           </FloatLabel>
           <FloatLabel variant="on">
             <InputText
@@ -59,7 +59,7 @@ const localContact = defineModel<string>("contact", { required: true });
               type="text"
               autocomplete="off"
             />
-            <label for="on_label">{{ $t("info.patronymic") }}</label>
+            <label>{{ $t("info.patronymic") }}</label>
           </FloatLabel>
           <FloatLabel v-if="role === 'artist'" variant="on">
             <InputText
@@ -68,7 +68,7 @@ const localContact = defineModel<string>("contact", { required: true });
               autocomplete="off"
               required
             />
-            <label for="on_label">{{ $t("info.stageName") }}</label>
+            <label>{{ $t("info.stageName") }}</label>
           </FloatLabel>
           <FloatLabel variant="on">
             <InputText
@@ -77,7 +77,7 @@ const localContact = defineModel<string>("contact", { required: true });
               autocomplete="off"
               required
             />
-            <label for="on_label">{{ $t("info.email") }}</label>
+            <label>{{ $t("info.email") }}</label>
           </FloatLabel>
           <FloatLabel variant="on">
             <InputText
@@ -86,7 +86,7 @@ const localContact = defineModel<string>("contact", { required: true });
               autocomplete="off"
               required
             />
-            <label for="on_label">{{ $t("info.contact") }}</label>
+            <label>{{ $t("info.contact") }}</label>
           </FloatLabel>
         </div>
       </form>

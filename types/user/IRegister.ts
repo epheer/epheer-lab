@@ -1,3 +1,5 @@
+import { UserRole } from '~/constants/roles';
+
 export interface IAuthData {
   login: string;
   password: string;
@@ -16,4 +18,17 @@ export interface IInfoData {
 export interface IArtistData {
   id: string;
   stageName: string;
+}
+
+export interface IRegisterForm {
+  login: string;
+  password: string;
+  role: UserRole;
+  email: string;
+  stageName: string;
+  surname: string;
+  firstname: string;
+  patronymic: string;
+  contact: string;
+  isRegistered: boolean;
 }

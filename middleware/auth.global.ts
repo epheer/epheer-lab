@@ -4,34 +4,32 @@ import { useAppStore } from "~/stores/app";
 import { useInfoStore } from "~/stores/user/info";
 
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (import.meta.server) {
-    return;
-  }
+  if (import.meta.server) return;
 
-  const excludedRoutes = ["/login"];
-  if (excludedRoutes.includes(to.path)) {
-    return;
-  }
+  const excludedRoutes = ['/login'];
+  if (excludedRoutes.includes(to.path)) return;
 
   const appStore = useAppStore();
   const infoStore = useInfoStore();
   const authStore = useAuthStore();
+  const token = localStorage.getItem("token");
 
-  appStore.startLoading();
+  try {
+    if (token) {
+      await authStore.checkAuth();
+    }
 
-  if (localStorage.getItem("token")) {
-    await authStore.checkAuth();
-  }
+    if (!authStore.isAuth) {
+      return navigateTo('/login');
+    }
 
-  if (!authStore.isAuth) {
+    if (!infoStore.isFetched && authStore.user?.id) {
+      appStore.startLoading();
+      await infoStore.fetchUserInfo(authStore.user.id);
+    }
+  } catch (error) {
+    return navigateTo('/login');
+  } finally {
     appStore.stopLoading();
-    return navigateTo("/login");
   }
-
-  if (!infoStore.isFetched) {
-    const id = authStore.user.id;
-    await infoStore.fetchUserInfo(id);
-  }
-
-  appStore.stopLoading();
 });
