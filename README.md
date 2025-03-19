@@ -1,75 +1,104 @@
-# Nuxt Minimal Starter
+# Frontend платформы личного кабинета для музыкального лейбла ЭФИР
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Проект на базе **Nuxt 3** обеспечивает удобное управление контентом и взаимодействие между артистами и менеджерами. В
+проекте используются современные технологии и библиотеки для создания отзывчивого и функционального интерфейса.
 
-## Setup
+## Основные зависимости
 
-Make sure to install dependencies:
+- **@nuxtjs/i18n**: Локализация и переводы.
+- **@pinia/nuxt**: Управление состоянием с Pinia.
+- **@primevue/themes**: Темы для PrimeVue.
+- **@tailwindcss/postcss**: Интеграция TailwindCSS.
+- **axios**: HTTP-клиент для работы с API.
+- **date-fns**: Утилиты для работы с датами.
+- **gsap**: Анимации.
+- **nuxt**: Фреймворк Nuxt 3.
+- **pinia**: Управление состоянием.
+- **primevue**: Компонентная библиотека PrimeVue.
+- **tailwindcss**: CSS-фреймворк.
+- **typescript**: Поддержка TypeScript.
+- **vue**: Vue.js (последняя версия).
+- **vue-router**: Роутинг для Vue.
+
+## Структура проекта
+
+```
+├── assets/          # Статические ресурсы (стили, изображения, шрифты)
+├── components/      # Vue-компоненты
+├── constants/       # Константы и глобальные переменные
+├── i18n/            # Конфигурация локализации
+├── layouts/         # Шаблоны страниц
+├── middleware/      # Промежуточное ПО
+├── pages/           # Страницы приложения
+├── public/          # Публичные файлы
+├── services/        # Сервисы для работы с API
+├── stores/          # Хранилища Pinia
+├── types/           # TypeScript типы
+├── utils/           # Утилиты и вспомогательные функции
+├── app.vue          # Корневой компонент
+├── nuxt.config.ts   # Конфигурация Nuxt
+├── package.json     # Зависимости и скрипты
+└── primevue.config.ts # Конфигурация PrimeVue
+```
+
+## Установка и запуск
+
+### Установка зависимостей
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
+# или
 yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+### Запуск в режиме разработки
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
+# или
 yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
+### Сборка проекта
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
+# или
 yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+### Предпросмотр продакшн-сборки
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
+# или
 yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Генерация статических файлов
+
+```bash
+npm run generate
+# или
+yarn generate
+```
+
+### Линтер и форматирование
+
+```bash
+npm run lint
+# или
+yarn lint
+```
+
+#### Форматирование кода:
+
+```bash
+npm run format
+# или
+yarn format
+```
+
+## Дополнительные команды
+
+- `postinstall`: Автоматически выполняется после установки зависимостей для подготовки проекта.

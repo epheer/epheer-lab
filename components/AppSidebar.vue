@@ -1,54 +1,53 @@
 <script setup lang="ts">
-import { ref, onBeforeMount, onMounted, onUnmounted } from "vue";
-import { useI18n } from "#imports";
-import { useAuthStore } from "~/stores/user/auth";
-import { UserRole } from "~/constants/roles";
+import { ref, onBeforeMount, onMounted, onUnmounted } from 'vue';
+import { useI18n } from '#imports';
+import { useAuthStore } from '~/stores/user/auth';
+import { UserRole } from '~/constants/roles';
 
 const { t } = useI18n();
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 
 const items = ref<Array<MenuItem>>([
-  { label: t("title.dashboard"), route: "/" },
-  { label: t("title.artists"), route: "/artists" },
-  { label: t("title.managers"), route: "/managers", access: UserRole.ROOT },
+  { label: t('title.dashboard'), route: '/' },
+  { label: t('title.artists'), route: '/artists' },
+  { label: t('title.managers'), route: '/managers', access: UserRole.ROOT },
   {
-    label: t("menus.sidebar.releases"),
+    label: t('menus.sidebar.releases'),
     items: [
-      { label: t("title.releases.new"), route: "/new" },
-      { label: t("title.releases.all"), route: "/releases" },
+      { label: t('title.releases.new'), route: '/new' },
+      { label: t('title.releases.all'), route: '/releases' },
     ],
   },
   {
-    label: t("title.royalties.default"),
-    route: "/royalties",
+    label: t('title.royalties.default'),
+    route: '/royalties',
     items: [
       {
-        label: t("title.royalties.manage"),
-        route: "/royalties/manage",
+        label: t('title.royalties.manage'),
+        route: '/royalties/manage',
         access: UserRole.ROOT,
       },
     ],
     access: UserRole.ARTIST,
   },
   {
-    label: t("title.contracts.default"),
-    route: "/contracts",
+    label: t('title.contracts.default'),
+    route: '/contracts',
     items: [
       {
-        label: t("title.contracts.register"),
-        route: "/contracts/new",
+        label: t('title.contracts.register'),
+        route: '/contracts/new',
         access: UserRole.ROOT,
       },
     ],
   },
-  { label: t("title.guides"), route: "/guides" },
+  { label: t('title.guides'), route: '/guides' },
   {
-    label: t("menus.sidebar.users"),
+    label: t('menus.sidebar.users'),
     items: [
-      { label: t("title.users.register"), route: "/users/register" },
-      { label: t("title.users.reset"), route: "/users/reset" },
-      { label: t("title.users.all"), route: "/users" },
+      { label: t('title.users.register'), route: '/users/register' },
+      { label: t('title.users.all'), route: '/users' },
     ],
     access: UserRole.ROOT,
   },
@@ -75,7 +74,7 @@ const filterItemsByRole = (role: string): void => {
 
   const filterMenu = (menuItems: MenuItem[]): MenuItem[] => {
     return menuItems
-      .map((item) => {
+      .map(item => {
         if (item.items) {
           const filteredSubItems = filterMenu(item.items);
 
@@ -100,26 +99,23 @@ onBeforeMount(() => {
   filterItemsByRole(user.value.role);
 });
 
-const updateSidebarVisibility = (): void => {
-  isSidebarVisible.value = window.innerWidth >= 768;
-};
-
 onMounted(() => {
-  updateSidebarVisibility();
-  window.addEventListener("resize", updateSidebarVisibility);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", updateSidebarVisibility);
+  isSidebarVisible.value = window.innerWidth >= 768;
 });
 
 const toggleSidebar = (): void => {
   isSidebarVisible.value = !isSidebarVisible.value;
 };
 
+const hideSidebarOnMobile = (): void => {
+  if (window.innerWidth < 768) {
+    isSidebarVisible.value = false;
+  }
+};
+
 const toggleExpand = (index: number): void => {
   if (expandedItems.value.includes(index)) {
-    expandedItems.value = expandedItems.value.filter((i) => i !== index);
+    expandedItems.value = expandedItems.value.filter(i => i !== index);
   } else {
     expandedItems.value.push(index);
   }
@@ -128,19 +124,26 @@ const toggleExpand = (index: number): void => {
 
 <template>
   <div class="flex flex-col w-screen md:w-auto md:h-screen md:p-4">
-    <div class="flex items-center justify-between pl-4 py-1 md:p-4">
+    <div
+      :class="[
+        'flex bg-ash-100 items-center justify-between pl-4 py-1 md:p-4 z-20',
+        { '!bg-ash-50': isSidebarVisible },
+      ]"
+    >
       <UiuxToggleBurger :isOpened="isSidebarVisible" @toggle="toggleSidebar" />
       <NuxtLink to="/" class="flex flex-nowrap items-baseline gap-3">
         <BrandLogo class="h-5 md:h-6 w-auto" />
         <span class="font-sans text-nowrap text-md md:text-lg text-ash-800">
-          {{ $t("brand.shortLab") }}</span
+          {{ $t('brand.shortLab') }}</span
         >
       </NuxtLink>
       <UserProfileMenu class="block md:hidden" />
     </div>
     <nav
-      v-if="isSidebarVisible"
-      class="absolute md:static bg-ash-50 top-16 left-0 z-10 md:z-0 w-full mb-2 rounded-2xl shadow-e"
+      :class="[
+        'absolute md:static bg-ash-50 top-16 left-0 z-10 md:z-0 w-full mb-2 rounded-2xl shadow-e border-1 border-ash-200 transition-all md:transition-none duration-300',
+        { 'invisible -translate-y-full': !isSidebarVisible },
+      ]"
     >
       <ol>
         <li
@@ -152,6 +155,7 @@ const toggleExpand = (index: number): void => {
             <NuxtLink
               :to="item.route"
               class="font-medium rounded-2xl py-3 px-4 w-full hover:bg-ash-200 border-1 border-ash-200/10 hover:border-ash-200"
+              @click="hideSidebarOnMobile"
             >
               {{ item.label }}
             </NuxtLink>
@@ -165,6 +169,7 @@ const toggleExpand = (index: number): void => {
                 <NuxtLink
                   :to="item.route"
                   class="font-medium rounded-l-2xl pl-4 py-3 w-full hover:bg-ash-200"
+                  @click="hideSidebarOnMobile"
                 >
                   {{ item.label }}
                 </NuxtLink>
@@ -204,7 +209,8 @@ const toggleExpand = (index: number): void => {
                 >
                   <NuxtLink
                     :to="subitem.route"
-                    class="w-full py-3 px-4 rounded-2xl hover:bg-ash-200 border-1 border-ash-200/10 hover:border-ash-200"
+                    class="w-full py-3 pr-4 pl-8 rounded-2xl hover:bg-ash-200 border-1 border-ash-200/10 hover:border-ash-200"
+                    @click="hideSidebarOnMobile"
                   >
                     {{ subitem.label }}
                   </NuxtLink>
@@ -216,7 +222,7 @@ const toggleExpand = (index: number): void => {
       </ol>
     </nav>
     <span class="hidden md:block text-ash-500 mt-2"
-      >&copy; {{ $t("brand.name") }} 2025</span
+      >&copy; {{ $t('brand.name') }} 2025</span
     >
   </div>
 </template>

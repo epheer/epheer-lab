@@ -1,13 +1,13 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "blank",
+  layout: 'blank',
 });
 </script>
 
 <template>
   <div>
     <Head>
-      <Title>{{ $t("title.login") }} / {{ $t("brand.lab") }}</Title>
+      <Title>{{ $t('title.login') }} / {{ $t('brand.lab') }}</Title>
     </Head>
     <div class="h-screen flex items-center">
       <Card class="mx-auto">
@@ -19,7 +19,5 @@ definePageMeta({
         </template>
       </Card>
     </div>
-
-    <Toast position="bottom-right" group="br" />
   </div>
 </template>

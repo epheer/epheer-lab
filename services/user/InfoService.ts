@@ -1,18 +1,21 @@
-import { api } from "~/utils/axios.config";
-import { type InfoResponse } from "~/types/user/InfoResponse";
-import { type IInfo } from "~/types/user/IInfo";
+import { api } from '~/utils/axios.config';
+import type {
+  FullInfoResponse,
+  InfoResponse,
+  FullUserInfo,
+} from '~/types/user/InfoResponse';
+import { type AxiosResponse } from 'axios';
+import { type InfoRequestParams } from '~/types/user/InfoRequest';
 
 export default class InfoService {
-  static async getUserInfoById(id: string): Promise<IInfo> {
+  static async getUserInfoById(id: string): Promise<FullUserInfo> {
     const result = await api.get<InfoResponse>(`/users/${id}`);
-    const userInfo: IInfo = {
-      surname: result.data[0].surname,
-      firstname: result.data[0].firstname,
-      patronymic: result.data[0].patronymic,
-      contact: result.data[0].contact,
-      email: result.data[0].email,
-      createdAt: result.data[0].createdAt,
-    };
-    return userInfo;
+    return result.data[0];
+  }
+
+  static async getAllUsersInfo(
+    params: InfoRequestParams
+  ): Promise<AxiosResponse<FullInfoResponse>> {
+    return await api.get<FullInfoResponse>(`/users/`, { params });
   }
 }

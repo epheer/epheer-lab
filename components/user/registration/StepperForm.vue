@@ -3,10 +3,12 @@ import { ref } from "vue";
 import { useToast } from "primevue/usetoast";
 import { UserRole, rolesList } from "~/constants/roles";
 import { validateLoginData } from "~/utils/login.validator";
+import ShowToast from '~/utils/showToast';
 import RegisterService from "~/services/user/RegisterService";
 import type { IAuthData, IArtistData, IInfoData, IRegisterForm } from "~/types/user/IRegister";
 
 const toast = useToast();
+ShowToast.initialize(toast);
 const { t } = useI18n();
 
 const registerForm = ref<IRegisterForm>({
@@ -23,11 +25,9 @@ const registerForm = ref<IRegisterForm>({
 });
 
 const showError = (message: string): void => {
-  toast.add({
-    severity: "error",
+  ShowToast.error({
     summary: t("errors.register"),
     detail: message,
-    life: 3000,
     group: "br",
   });
 };
@@ -76,11 +76,9 @@ const handleRegister = async (): Promise<void> => {
 
     registerForm.value.isRegistered = true;
 
-    toast.add({
-      severity: "success",
+    ShowToast.success({
       summary: t("registration.success"),
       detail: `${t("registration.successMessage")} ${userId}`,
-      life: 5000,
       group: "br",
     });
   } catch (e: any) {
@@ -241,7 +239,7 @@ const clearForm = (): void => {
           :is-registered="registerForm.isRegistered"
           @prev-step="activateCallback('3')"
           @register="handleRegister"
-          @clear-form="clearForm(), activateCallback('1')"
+          @clear-form="clearForm(); activateCallback('1')"
         />
       </StepPanel>
     </StepPanels>

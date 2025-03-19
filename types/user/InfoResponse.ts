@@ -1,4 +1,6 @@
-interface FullUserInfo {
+import type { Pagination } from '~/types/Pagination';
+
+export interface FullUserInfo {
   id: string;
   login: string;
   role: string;
@@ -8,9 +10,14 @@ interface FullUserInfo {
   contact: string;
   email: string;
   is_active: boolean;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface InfoResponse {
   [index: number]: FullUserInfo;
+}
+
+export interface FullInfoResponse {
+  data: InfoResponse[];
+  pagination: Pagination;
 }

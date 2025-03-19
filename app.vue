@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAppStore } from "~/stores/app";
+import { useAppStore } from '~/stores/app';
 import { storeToRefs } from 'pinia';
 
 const appStore = useAppStore();
@@ -30,4 +30,6 @@ const { isLoading } = storeToRefs(appStore);
       <Loading v-if="isLoading" />
     </transition>
   </div>
+
+  <Toast position="bottom-right" group="br" />
 </template>

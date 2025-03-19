@@ -4,5 +4,5 @@ export interface IInfo {
   patronymic: string;
   contact: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
 }

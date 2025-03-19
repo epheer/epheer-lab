@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import { navigateTo } from "#app";
-import { useAuthStore } from "~/stores/user/auth";
-import { useToast } from "primevue/usetoast";
-import { validateLoginData } from "~/utils/login.validator";
+import { navigateTo } from '#app';
+import { useAuthStore } from '~/stores/user/auth';
+import { useToast } from 'primevue/usetoast';
+import { validateLoginData } from '~/utils/login.validator';
+import ShowToast from '~/utils/showToast';
 
-const username = defineModel<string>("username", { default: "" });
-const password = defineModel<string>("password", { default: "" });
+const username = defineModel<string>('username', { default: '' });
+const password = defineModel<string>('password', { default: '' });
 
 const toast = useToast();
+ShowToast.initialize(toast);
 const { t } = useI18n();
 
 const authStore = useAuthStore();
 
 const showError = (message: string): void => {
-  toast.add({
-    severity: "error",
-    summary: t("errors.login"),
+  ShowToast.error({
+    summary: t('errors.login'),
     detail: message,
-    life: 3000,
-    group: "br",
+    group: 'br',
   });
 };
 
 const handleSubmit = async (): Promise<void> => {
   try {
     if (!validateLoginData(username.value, password.value)) {
-      showError(t("errors.invalidData"));
+      showError(t('errors.invalidData'));
       return;
     }
     await authStore.login(username.value, password.value);
-    navigateTo("/");
+    navigateTo('/');
   } catch (e: any) {
-    showError(e.message || t("errors.default"));
+    showError(e.message || t('errors.default'));
   }
 };
 </script>
@@ -50,7 +50,7 @@ const handleSubmit = async (): Promise<void> => {
           autofocus
           required
         />
-        <label for="username">{{ $t("login.username") }}</label>
+        <label for="username">{{ $t('login.username') }}</label>
       </FloatLabel>
       <FloatLabel variant="on" class="w-full">
         <Password
@@ -64,11 +64,11 @@ const handleSubmit = async (): Promise<void> => {
           fluid
           required
         />
-        <label for="password">{{ $t("login.password") }}</label>
+        <label for="password">{{ $t('login.password') }}</label>
       </FloatLabel>
     </div>
     <UiuxGradientButton type="submit" stretch>
-      {{ $t("login.entrance") }}
+      {{ $t('login.entrance') }}
     </UiuxGradientButton>
   </form>
 </template>

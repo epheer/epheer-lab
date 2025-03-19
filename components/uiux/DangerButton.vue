@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  type?: 'button' | 'submit';
+  type?: 'button' | 'reset';
   stretch?: boolean;
   disabled?: boolean;
 }>();
@@ -12,7 +12,7 @@ const props = defineProps<{
     :disabled="props.disabled ? true : undefined"
     ripple
     unstyled
-    class="rounded-lg px-4 py-2 mt-2 bg-gradient-to-r from-eph-600 via-eph-500 to-eph-700 text-ash-50 transition duration-300 hover:from-eph-700 hover:via-eph-600 hover:to-eph-700"
+    class="rounded-lg px-4 py-2 mt-2 transition duration-300 bg-e-red text-ash-100 hover:saturate-150"
     :class="{
       'grayscale !cursor-not-allowed': props.disabled,
       'w-full': props.stretch,

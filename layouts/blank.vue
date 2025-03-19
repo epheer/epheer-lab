@@ -1,1 +1,5 @@
-<template><slot /></template>
+<template>
+  <div>
+    <slot />
+  </div>
+</template>

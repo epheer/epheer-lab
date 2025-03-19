@@ -1,13 +1,13 @@
-import { defineStore } from "pinia";
-import InfoService from "~/services/user/InfoService";
-import { type IInfo } from "~/types/user/IInfo";
+import { defineStore } from 'pinia';
+import InfoService from '~/services/user/InfoService';
+import { type IInfo } from '~/types/user/IInfo';
 
 interface IInfoStore {
   userInfo: IInfo;
   isFetched: boolean;
 }
 
-export const useInfoStore = defineStore("info", {
+export const useInfoStore = defineStore('info', {
   state: (): IInfoStore => ({
     userInfo: {} as IInfo,
     isFetched: false,
@@ -15,8 +15,16 @@ export const useInfoStore = defineStore("info", {
   actions: {
     async fetchUserInfo(id: string) {
       try {
-        const response = await InfoService.getUserInfoById(id);
-        this.userInfo = response;
+        const { surname, firstname, patronymic, contact, email, createdAt } =
+          await InfoService.getUserInfoById(id);
+        this.userInfo = {
+          surname,
+          firstname,
+          patronymic,
+          contact,
+          email,
+          createdAt,
+        };
         this.isFetched = true;
       } catch (e: any) {
         throw new Error(e.response?.data?.message);
