@@ -6,11 +6,14 @@ import InfoService from '~/services/user/InfoService';
 import RegisterService from '~/services/user/RegisterService';
 import AuthService from '~/services/user/AuthService';
 
-interface IUserInfoForm {
+interface IUserMainInfo {
   surname: string;
   firstname: string;
   patronymic: string;
   contact: string;
+}
+
+interface IUserInfoForm extends IUserMainInfo {
   email: string;
 }
 
@@ -32,19 +35,24 @@ const userInfoForm = ref<IUserInfoForm>({
   email: '',
 });
 
-const loginRef = defineModel<string>('login', { required: true });
+const originalUserInfo = ref<IUserInfoForm>({
+  surname: '',
+  firstname: '',
+  patronymic: '',
+  contact: '',
+  email: '',
+});
+
+const loginRef = defineModel<string>('login');
 
 const fetchUserInfo = async (): Promise<void> => {
   try {
     const response = await InfoService.getUserInfoById(props.userId);
     const { surname, firstname, patronymic, contact, email, login } = response;
-    userInfoForm.value = {
-      surname,
-      firstname,
-      patronymic,
-      contact,
-      email,
-    };
+
+    userInfoForm.value = { surname, firstname, patronymic, contact, email };
+    originalUserInfo.value = { surname, firstname, patronymic, contact, email };
+
     loginRef.value = login;
   } catch (e: any) {
     ShowToast.error({
@@ -55,19 +63,52 @@ const fetchUserInfo = async (): Promise<void> => {
   }
 };
 
+const hasChanged = <T,>(current: T, original: T): boolean => {
+  return JSON.stringify(current) !== JSON.stringify(original);
+};
+
+const updateMainInfo = async (mainInfo: IUserMainInfo) => {
+  await RegisterService.addInfoAboutUserById({
+    id: props.userId,
+    ...mainInfo,
+  });
+};
+
+const updateEmail = async (email: string) => {
+  await AuthService.changeEmail(props.userId, email);
+};
+
 const saveEditInfo = async () => {
   try {
-    const { surname, firstname, patronymic, contact, email } =
-      userInfoForm.value;
+    const currentMainInfo: IUserMainInfo = {
+      surname: userInfoForm.value.surname,
+      firstname: userInfoForm.value.firstname,
+      patronymic: userInfoForm.value.patronymic,
+      contact: userInfoForm.value.contact,
+    };
 
-    await RegisterService.addInfoAboutUserById({
-      id: props.userId,
-      surname,
-      firstname,
-      patronymic,
-      contact,
-    });
-    await AuthService.changeEmail(props.userId, email);
+    const originalMainInfo: IUserMainInfo = {
+      surname: originalUserInfo.value.surname,
+      firstname: originalUserInfo.value.firstname,
+      patronymic: originalUserInfo.value.patronymic,
+      contact: originalUserInfo.value.contact,
+    };
+
+    const mainInfoChanged = hasChanged(currentMainInfo, originalMainInfo);
+    const emailChanged = hasChanged(
+      userInfoForm.value.email,
+      originalUserInfo.value.email
+    );
+
+    if (mainInfoChanged) {
+      await updateMainInfo(currentMainInfo);
+    }
+
+    if (emailChanged) {
+      await updateEmail(userInfoForm.value.email);
+    }
+
+    originalUserInfo.value = { ...userInfoForm.value };
 
     emit('updated');
 
@@ -95,7 +136,7 @@ onMounted(async () => {
 <template>
   <form @submit.prevent="saveEditInfo" class="flex flex-col gap-6">
     <div class="flex flex-col gap-4">
-      <p class="text-ash-800 font-semibold">Основная информация</p>
+      <p class="text-ash-800 font-semibold">{{ $t('updateUserInfo.main') }}</p>
       <div class="flex flex-wrap gap-4">
         <FloatLabel variant="on">
           <InputText id="surname" v-model="userInfoForm.surname" required />
@@ -113,7 +154,9 @@ onMounted(async () => {
     </div>
 
     <div class="flex flex-col gap-4">
-      <p class="text-ash-800 font-semibold">Контакты</p>
+      <p class="text-ash-800 font-semibold">
+        {{ $t('updateUserInfo.contacts') }}
+      </p>
       <div class="flex flex-wrap gap-4">
         <FloatLabel variant="on">
           <InputText id="email" v-model="userInfoForm.email" required />
@@ -126,7 +169,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <UiuxGradientButton type="submit" class="shrink-0 w-fit">
+    <UiuxGradientButton type="submit" class="shrink-0 w-28">
       {{ $t('buttons.save') }}
     </UiuxGradientButton>
   </form>

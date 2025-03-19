@@ -28,7 +28,6 @@ const resetPassword = async (): Promise<void> => {
     const userId = props.userId;
     const password = newPassword.value;
     await AuthService.resetPassword(userId, password);
-    console.log(t('success'));
     ShowToast.success({
       summary: t('success'),
       detail: t('resetPassword.success'),
