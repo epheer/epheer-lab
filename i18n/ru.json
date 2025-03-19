@@ -53,7 +53,8 @@
     "clear": "Очистить",
     "cancel": "Отмена",
     "save": "Сохранить",
-    "confirm": "Подтвердить"
+    "confirm": "Подтвердить",
+    "edit": "Изменить"
   },
   "errors": {
     "default": "Что-то пошло не так",
@@ -93,7 +94,8 @@
     "search": "Поиск...",
     "chooseRole": "Выберите роль",
     "actions": "Действия",
-    "newPassword": "Новый пароль"
+    "newPassword": "Новый пароль",
+    "repeatPassword": "Повторите пароль"
   },
   "confirm": {
     "areYouSure": "Вы уверены?",
@@ -127,6 +129,13 @@
     "success": "Пароль пользователя сброшен"
   },
   "updateUserInfo": {
-    "success": "Данные успешно обновлены"
+    "success": "Данные успешно обновлены",
+    "main": "Основная информация",
+    "contacts": "Контакты"
+  },
+  "settings": {
+    "changePassword": "Сменить пароль",
+    "changePasswordSuccess": "Пароль успешно изменён",
+    "passwordsDontMatch": "Пароль не совпадают"
   }
 }

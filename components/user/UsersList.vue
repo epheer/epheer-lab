@@ -140,6 +140,7 @@ watch(
       stripedRows
       sortField="createdAt"
       :sortOrder="-1"
+      :pt="{ mask: '!bg-transparent !text-ash-600 backdrop-blur-sm' }"
     >
       <template #header>
         <div class="flex justify-content-between">

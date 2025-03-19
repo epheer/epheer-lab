@@ -1,13 +1,13 @@
-import { loginPattern, passwordComplexity } from "~/constants/regex";
+import { loginPattern, passwordComplexity } from '~/constants/regex';
 
 export const validateLoginData = (login: string, password: string): boolean => {
   if (!loginPattern.test(login)) {
     return false;
   }
 
-  if (!passwordComplexity.test(password)) {
-    return false;
-  }
+  return validatePassword(password);
+};
 
-  return true;
+export const validatePassword = (newPassword: string): boolean => {
+  return passwordComplexity.test(newPassword);
 };

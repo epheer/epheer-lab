@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { passwordComplexity } from "~/constants/regex";
+import { passwordComplexity } from '~/constants/regex';
 
-defineProps<{ password: string }>();
+const props = defineProps<{ password: string; width?: number }>();
 
-const password = defineModel<string>("password", { required: true });
+const password = defineModel<string>('password', { required: true });
 </script>
 
 <template>
-  <FloatLabel variant="on" class="w-full">
+  <FloatLabel variant="on" :class="`!w-${props.width || 'full'}`">
     <Password
       v-model="password"
       type="password"
@@ -19,7 +19,13 @@ const password = defineModel<string>("password", { required: true });
       :strongRegex="passwordComplexity"
       required
       toggleMask
+      :pt="{
+        overlay: `!w-${props.width || 'full'}`,
+        pcInputText: { root: `!w-${props.width || 'full'}` },
+      }"
     />
-    <label><slot /></label>
+    <label>
+      <slot />
+    </label>
   </FloatLabel>
 </template>
