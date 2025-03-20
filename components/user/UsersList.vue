@@ -42,6 +42,11 @@ const getTranslatedRole = (role: string) => {
   return roleItem ? roleItem.label : role;
 };
 
+const clearRoleFilter = (applyFilter: () => void) => {
+  applyFilter();
+  filters.value.role.value = null;
+};
+
 const blockUser = async (): Promise<void> => {
   if (!selectedUserId.value) return;
 
@@ -159,7 +164,7 @@ watch(
         sortable
         :showFilterMatchModes="false"
         :showApplyButton="false"
-        showClearButton
+        :showClearButton="false"
         :filterMenuStyle="{ width: '14rem' }"
       >
         <template #body="{ data }">
@@ -174,6 +179,12 @@ watch(
             :placeholder="$t('placeholders.chooseRole')"
             @change="applyFilter"
           />
+          <UiuxSeverityButton
+            @click="() => clearRoleFilter(applyFilter)"
+            type="reset"
+          >
+            {{ $t('buttons.clear') }}
+          </UiuxSeverityButton>
         </template>
       </Column>
       <Column field="surname" :header="$t('info.surname')"></Column>
