@@ -9,6 +9,7 @@ interface ArtistStore {
   artists: ArtistsList;
   currentArtist: IArtist | null;
   isFetched: boolean;
+  isRootFetch: boolean;
   pagination: Pagination | null;
 }
 
@@ -17,6 +18,7 @@ export const useArtistStore = defineStore('artist', {
     artists: [],
     currentArtist: null,
     isFetched: false,
+    isRootFetch: false,
     pagination: null,
   }),
   actions: {
@@ -35,6 +37,7 @@ export const useArtistStore = defineStore('artist', {
         this.artists = response.data.data;
         this.pagination = response.data.pagination;
         this.isFetched = true;
+        this.isRootFetch = true;
       } catch (e: any) {
         throw new Error(
           e.response?.data?.message || 'Ошибка при получении списка артистов'
@@ -47,6 +50,7 @@ export const useArtistStore = defineStore('artist', {
         const response = await ManagerService.getArtistsPool(managerId);
         this.artists = response.data;
         this.isFetched = true;
+        this.isRootFetch = false;
       } catch (e: any) {
         throw new Error(e.response?.data?.message);
       }
@@ -62,7 +66,7 @@ export const useArtistStore = defineStore('artist', {
         } else {
           this.artists.push(updatedArtist);
         }
-
+        this.isRootFetch = false;
         this.currentArtist = updatedArtist;
       } catch (e: any) {
         throw new Error(e);

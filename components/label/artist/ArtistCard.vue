@@ -1,29 +1,57 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useArtistStore } from '~/stores/label/artists';
 import type { IArtist } from '~/types/label/IArtist';
 
 const props = defineProps<{ artist: IArtist }>();
 const drawerVisible = ref(false);
+const badgeVisible = ref(false);
 
 const artistStore = useArtistStore();
 
-const openDrawer = async (artistId: string) => {
-  await artistStore.fetchAndUpdateArtist(artistId);
-  drawerVisible.value = true;
+const getBadge = (): void => {
+  if (!props.artist.manager || !props.artist.manager.surname) {
+    badgeVisible.value = artistStore.isRootFetch;
+  } else {
+    badgeVisible.value = false;
+  }
 };
+
+const openDrawer = async (artistId: string) => {
+  try {
+    await artistStore.fetchAndUpdateArtist(artistId);
+    drawerVisible.value = true;
+  } catch (error) {
+    console.error('Ошибка при загрузке данных артиста:', error);
+  }
+};
+
+onMounted(() => {
+  if (props.artist) {
+    getBadge();
+  }
+});
+
+watch(
+  () => props.artist,
+  () => {
+    getBadge();
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <div>
     <Card
-      @click="openDrawer(artist.id)"
+      v-if="props.artist"
+      @click="openDrawer(props.artist.id)"
       class="inline-flex justify-center items-center w-36 md:w-48 hover:cursor-pointer"
       :pt="{ root: '!shadow-none' }"
     >
       <template #title>
         <OverlayBadge
-          v-if="!props.artist.manager"
+          v-if="badgeVisible"
           v-tooltip="$t('artists.needLinkManager')"
           size="small"
           severity="danger"
