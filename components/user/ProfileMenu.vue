@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAuthStore } from "~/stores/user/auth";
-import { navigateTo } from "#app";
-import { useI18n } from "#imports";
+import { ref } from 'vue';
+import { useAuthStore } from '~/stores/user/auth';
+import { useInfoStore } from '~/stores/user/info';
+import { navigateTo } from '#app';
+import { useI18n } from '#imports';
 
 const { t } = useI18n();
 
 const authStore = useAuthStore();
+const infoStore = useInfoStore();
 const { user } = storeToRefs(authStore);
 
 const menu = ref<any>(null);
@@ -21,11 +23,11 @@ interface MenuItem {
 }
 
 const items = ref<Array<MenuItem>>([
-  { label: t("title.settings"), route: "/settings" },
-  { label: t("menus.profile.backToSite"), url: "https://epheer.ru" },
+  { label: t('title.settings'), route: '/settings' },
+  { label: t('menus.profile.backToSite'), url: 'https://epheer.ru' },
   { separator: true },
   {
-    label: t("menus.profile.logout"),
+    label: t('menus.profile.logout'),
     command: () => {
       logout();
     },
@@ -37,7 +39,8 @@ async function logout(): Promise<void> {
 
   try {
     await authStore.logout();
-    navigateTo("/login");
+    navigateTo('/login');
+    infoStore.clearUserInfo();
   } catch (error: any) {
     console.log(error);
   }
@@ -67,7 +70,7 @@ function onMenuBlur(): void {
     >
       <template #start>
         <span class="inline-flex px-4 pt-3 pb-1 font-bold">
-          {{ user.login || "Логин" }}
+          {{ user.login || 'Логин' }}
         </span>
       </template>
       <template #item="{ item, props }">
