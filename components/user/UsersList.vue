@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from '#imports';
 import type { Pagination } from '@/types/Pagination';
 import type { InfoResponse } from '~/types/user/InfoResponse';
