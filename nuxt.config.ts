@@ -2,7 +2,7 @@ import primevueConfig from "./primevue.config";
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  modules: ["@pinia/nuxt", "@primevue/nuxt-module", "@nuxtjs/i18n"],
+  modules: ["@pinia/nuxt", "@primevue/nuxt-module", "@nuxtjs/i18n", "@vueuse/nuxt"],
 
   app: {
     head: {

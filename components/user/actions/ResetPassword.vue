@@ -29,18 +29,14 @@ const resetPassword = async (): Promise<void> => {
     const password = newPassword.value;
     await AuthService.resetPassword(userId, password);
     ShowToast.success({
-      summary: t('success'),
       detail: t('resetPassword.success'),
-      group: 'br',
     });
     visible.value = false;
     newPassword.value = '';
     emit('cancel');
-  } catch (error) {
+  } catch (e: any) {
     ShowToast.error({
-      summary: t('errors.default'),
-      detail: error.message,
-      group: 'br',
+      detail: e.message,
     });
   }
 };

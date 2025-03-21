@@ -56,9 +56,7 @@ const fetchUserInfo = async (): Promise<void> => {
     loginRef.value = login;
   } catch (e: any) {
     ShowToast.error({
-      summary: t('errors.default'),
       detail: e.message,
-      group: 'br',
     });
   }
 };

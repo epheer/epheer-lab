@@ -5,12 +5,15 @@ export default defineNuxtRouteMiddleware(to => {
   if (import.meta.server) {
     return;
   }
-  
+
   const authStore = useAuthStore();
   const requiredRole = to.meta.requiredRole as string;
 
   try {
-    if (authStore.user.role !== requiredRole) {
+    if (
+      authStore.user.role !== requiredRole &&
+      authStore.user.role !== 'root'
+    ) {
       return navigateTo('/');
     }
   } catch (error) {

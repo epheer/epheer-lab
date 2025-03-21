@@ -10,7 +10,7 @@ const { user } = storeToRefs(authStore);
 
 const items = ref<Array<MenuItem>>([
   { label: t('title.dashboard'), route: '/' },
-  { label: t('title.artists'), route: '/artists' },
+  { label: t('title.artists'), route: '/artists', access: UserRole.MANAGER },
   { label: t('title.managers'), route: '/managers', access: UserRole.ROOT },
   {
     label: t('menus.sidebar.releases'),
@@ -65,26 +65,33 @@ type MenuItem = {
 
 const filterItemsByRole = (role: string): void => {
   const hasAccess = (itemRole?: UserRole): boolean => {
-    if (!itemRole) return true;
-
     if (role === UserRole.ROOT) return true;
 
-    return itemRole === role;
+    return !itemRole || itemRole === role;
   };
 
   const filterMenu = (menuItems: MenuItem[]): MenuItem[] => {
     return menuItems
       .map(item => {
+        if (!hasAccess(item.access)) {
+          return null;
+        }
+
         if (item.items) {
           const filteredSubItems = filterMenu(item.items);
 
-          if (filteredSubItems.length && !hasAccess(item.access)) {
+          if (filteredSubItems.length > 0) {
             return { ...item, items: filteredSubItems };
           }
+
+          delete item.items;
         }
 
-        if (hasAccess(item.access)) {
-          return item.items ? { ...item, items: filterMenu(item.items) } : item;
+        if (
+          item.route ||
+          (Array.isArray(item.items) && item.items.length > 0)
+        ) {
+          return item;
         }
 
         return null;
@@ -127,7 +134,7 @@ const toggleExpand = (index: number): void => {
     <div
       :class="[
         'flex bg-ash-100 items-center justify-between pl-4 py-1 md:p-4 z-20',
-        { '!bg-ash-50': isSidebarVisible },
+        { '!bg-ash-50 md:!bg-ash-100': isSidebarVisible },
       ]"
     >
       <UiuxToggleBurger :isOpened="isSidebarVisible" @toggle="toggleSidebar" />

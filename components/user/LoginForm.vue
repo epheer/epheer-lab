@@ -18,7 +18,6 @@ const showError = (message: string): void => {
   ShowToast.error({
     summary: t('errors.login'),
     detail: message,
-    group: 'br',
   });
 };
 
