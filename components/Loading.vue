@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="absolute top-0 left-0 w-screen h-screen bg-ash-100 flex flex-col gap-2 justify-center items-center"
-  >
-    <div class="loader"></div>
-  </div>
-  <div class="absolute bottom-0 w-screen flex justify-center items-center">
-    <BrandLogo class="mb-10 h-6 w-auto" />
+  <div>
+    <div
+      class="absolute top-0 left-0 w-screen h-screen bg-ash-100 flex flex-col gap-2 justify-center items-center"
+    >
+      <div class="loader"></div>
+    </div>
+    <div class="absolute bottom-0 w-screen flex justify-center items-center">
+      <BrandLogo class="mb-10 h-6 w-auto" />
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,7 @@
 }
 .loader::before,
 .loader::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -54,3 +56,4 @@
   }
 }
 </style>
+<script setup lang="ts"></script>

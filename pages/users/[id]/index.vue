@@ -20,10 +20,6 @@ const goBack = () => {
   }
 };
 
-const handleFormUpdated = () => {
-  console.log('Форма успешно обновлена');
-};
-
 onMounted(() => {
   if (import.meta.server) {
     return;
@@ -54,11 +50,7 @@ onMounted(() => {
         </h1>
       </div>
       <div class="bg-ash-50 rounded-2xl shadow-e p-6 mt-2">
-        <UserEditInfoForm
-          :user-id="userId"
-          v-model:login="loginRef"
-          @updated="handleFormUpdated"
-        />
+        <UserEditInfoForm :user-id="userId" v-model:login="loginRef" />
       </div>
     </section>
   </div>

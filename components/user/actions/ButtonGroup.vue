@@ -21,20 +21,14 @@ const emit = defineEmits<{
 
 const resetPasswordModalVisible = ref(false);
 
-const showError = (message: string): void => {
-  ShowToast.error({
-    summary: t('errors.default'),
-    detail: message,
-    group: 'br',
-  });
-};
-
 const unblockUser = async (userId: string): Promise<void> => {
   try {
     await AuthService.unblock(userId);
     emit('update');
   } catch (e: any) {
-    showError(e.message);
+    ShowToast.error({
+      detail: e.message,
+    });
   }
 };
 </script>

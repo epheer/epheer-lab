@@ -2,12 +2,19 @@
 import { passwordComplexity } from '~/constants/regex';
 
 const props = defineProps<{ password: string; width?: number }>();
-
 const password = defineModel<string>('password', { required: true });
+
+const getDynamicClass = () => {
+  if (!props.width) {
+    return 'w-auto';
+  } else {
+    return `w-${props.width}`;
+  }
+};
 </script>
 
 <template>
-  <FloatLabel variant="on" :class="`!w-${props.width || 'full'}`">
+  <FloatLabel variant="on" :class="getDynamicClass()">
     <Password
       v-model="password"
       type="password"
@@ -20,8 +27,8 @@ const password = defineModel<string>('password', { required: true });
       required
       toggleMask
       :pt="{
-        overlay: `!w-${props.width || 'full'}`,
-        pcInputText: { root: `!w-${props.width || 'full'}` },
+        overlay: getDynamicClass(),
+        pcInputText: { root: getDynamicClass() },
       }"
     />
     <label>

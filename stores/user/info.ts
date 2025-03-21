@@ -30,5 +30,9 @@ export const useInfoStore = defineStore('info', {
         throw new Error(e.response?.data?.message);
       }
     },
+    clearUserInfo() {
+      this.userInfo = {} as IInfo;
+      this.isFetched = false;
+    },
   },
 });

@@ -24,17 +24,13 @@ const changePassword = async (): Promise<void> => {
     const password = newPassword.value;
     await AuthService.resetPassword(userId, password);
     ShowToast.success({
-      summary: t('success'),
       detail: t('settings.changePasswordSuccess'),
-      group: 'br',
     });
     newPassword.value = '';
     repeatPassword.value = '';
   } catch (e: any) {
     ShowToast.error({
-      summary: t('errors.default'),
       detail: e.message,
-      group: 'br',
     });
   }
 };
@@ -44,16 +40,13 @@ const handleChangePassword = async (): Promise<void> => {
     ShowToast.error({
       summary: t('errors.invalidData'),
       detail: t('settings.passwordsDontMatch'),
-      group: 'br',
     });
     return;
   }
 
   if (!validatePassword(newPassword.value)) {
     ShowToast.error({
-      summary: t('error'),
       detail: t('errors.invalidData'),
-      group: 'br',
     });
     return;
   }

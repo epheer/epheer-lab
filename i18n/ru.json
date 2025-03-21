@@ -54,7 +54,8 @@
     "cancel": "Отмена",
     "save": "Сохранить",
     "confirm": "Подтвердить",
-    "edit": "Изменить"
+    "edit": "Изменить",
+    "choose": "Выбрать"
   },
   "errors": {
     "default": "Что-то пошло не так",
@@ -95,7 +96,9 @@
     "chooseRole": "Выберите роль",
     "actions": "Действия",
     "newPassword": "Новый пароль",
-    "repeatPassword": "Повторите пароль"
+    "repeatPassword": "Повторите пароль",
+    "copyToClipboard": "Скопировать в буфер обмена",
+    "copiedToClipboard": "Скопировано"
   },
   "confirm": {
     "areYouSure": "Вы уверены?",
@@ -137,5 +140,14 @@
     "changePassword": "Сменить пароль",
     "changePasswordSuccess": "Пароль успешно изменён",
     "passwordsDontMatch": "Пароль не совпадают"
+  },
+  "artists": {
+    "title": "Пул артистов",
+    "emptyPool": "В вашем пуле ещё нет артистов",
+    "needLinkManager": "Артисту не назначен менеджер",
+    "managerOfArtist": "Менеджер артиста",
+    "chooseManager": "Выберите менеджера",
+    "editManager": "Изменить менеджера",
+    "goToReleases": "Перейти к релизам"
   }
 }

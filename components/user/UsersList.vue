@@ -55,9 +55,7 @@ const blockUser = async (): Promise<void> => {
     await fetchUsers();
   } catch (e: any) {
     ShowToast.error({
-      summary: t('errors.default'),
       detail: e.message,
-      group: 'br',
     });
   } finally {
     closeBlockConfirmModal();
@@ -82,9 +80,7 @@ const fetchUsers = async (params = {}) => {
     pagination.value.totalPages = response.data.pagination.totalPages;
   } catch (e: any) {
     ShowToast.error({
-      summary: t('errors.default'),
       detail: e.message,
-      group: 'br',
     });
   } finally {
     loading.value = false;
@@ -107,18 +103,22 @@ onMounted(async () => {
   await fetchUsers();
 });
 
-watch(
+watchDebounced(
   () => filters.value,
   newFilters => {
-    const roleFilter = newFilters.role.value;
-    const searchQuery = newFilters.global.value;
+    const roleFilter = newFilters.role?.value;
+    const searchQuery = newFilters.global?.value;
 
     fetchUsers({
       'filter[role]': roleFilter || undefined,
       search: searchQuery || undefined,
     });
   },
-  { deep: true }
+  {
+    debounce: 300,
+    maxWait: 2000,
+    deep: true,
+  }
 );
 </script>
 
