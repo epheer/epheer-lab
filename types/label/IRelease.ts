@@ -25,7 +25,7 @@ interface ArtistInfo {
   stage_name: string;
 }
 
-interface Authors {
+export interface Authors {
   lyricists: string[];
   producers: string[];
 }
@@ -40,7 +40,7 @@ interface FileInfo {
   duration: number;
 }
 
-interface Track {
+export interface Track {
   release: string;
   index: number;
   name?: string;
@@ -54,11 +54,11 @@ interface Track {
   updatedAt?: string;
 }
 
-interface Release {
+export interface Release {
   artist: ArtistInfo;
   name?: string;
   type?: ReleaseType;
-  date?: string;
+  date?: string | Date;
   cover_key?: string;
   feat?: string[];
   authors: Authors;

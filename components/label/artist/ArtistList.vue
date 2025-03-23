@@ -38,6 +38,10 @@ const fetchArtists = async (page?: number) => {
 onMounted(() => {
   fetchArtists();
 });
+
+onBeforeUnmount(() => {
+  artistStore.currentArtist = null;
+});
 </script>
 
 <template>

@@ -32,6 +32,11 @@ const localRole = defineModel<UserRole>('role', {
           optionValue="value"
           :allowEmpty="false"
           size="large"
+          :pt="{
+            pcToggleButton: {
+              root: { class: '!flex-grow !bg-ash-200/70 !border-0' },
+            },
+          }"
         />
       </div>
       <div class="block sm:hidden">

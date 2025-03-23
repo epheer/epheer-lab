@@ -69,6 +69,23 @@ button {
 
 .fast-fade-enter-from,
 .fast-fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  @apply transition-all duration-150;
+}
+
+.list-enter-from,
+.list-leave-to {
+  @apply opacity-0 translate-x-12;
+}
+
+.list-leave-active {
+  @apply absolute
+}
+
+
 

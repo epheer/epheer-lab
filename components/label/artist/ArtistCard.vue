@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { useArtistStore } from '~/stores/label/artists';
 import type { IArtist } from '~/types/label/IArtist';
 
-const props = defineProps<{ artist: IArtist }>();
+const props = defineProps<{ artist: IArtist; withoutAction?: boolean }>();
 const drawerVisible = ref(false);
 const badgeVisible = ref(false);
 
@@ -18,6 +18,9 @@ const getBadge = (): void => {
 };
 
 const openDrawer = async (artistId: string) => {
+  if (props.withoutAction) {
+    return;
+  }
   try {
     await artistStore.fetchAndUpdateArtist(artistId);
     drawerVisible.value = true;
@@ -47,7 +50,7 @@ watch(
       v-if="props.artist"
       @click="openDrawer(props.artist.id)"
       class="inline-flex justify-center items-center w-36 md:w-48 hover:cursor-pointer"
-      :pt="{ root: '!shadow-none' }"
+      :pt="{ root: '!shadow-none !bg-transparent' }"
     >
       <template #title>
         <OverlayBadge
