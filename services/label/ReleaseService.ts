@@ -5,23 +5,24 @@ import type {
   ReleaseList,
 } from '~/types/label/ReleaseResponse';
 import type { Release } from '~/types/label/IRelease';
+import type { ReleaseQueryParams } from '~/types/label/ReleaseRequest';
 
 export default class ReleaseService {
   // 1. Создание релиза
   static async createRelease(
     artistId: string
-  ): Promise<AxiosResponse<CreateReleaseSuccessResponse>> {
-    return await api.post(`/${artistId}/new`);
+  ): Promise<AxiosResponse<CreateReleaseSuccess>> {
+    return await api.post(`/releases/${artistId}/new`);
   }
 
   // 2. Обновление релиза
   static async updateRelease(data: Release): Promise<AxiosResponse<Release>> {
-    return await api.put(`/${data.id}`, data);
+    return await api.put(`/releases/${data.id}`, data);
   }
 
   // 3. Сохранение релиза (перевод в статус "ожидание")
   static async saveRelease(releaseId: string): Promise<AxiosResponse<Release>> {
-    return await api.patch(`/${releaseId}`);
+    return await api.patch(`/releases/${releaseId}`);
   }
 
   // 4. Обновление статуса релиза
@@ -32,14 +33,14 @@ export default class ReleaseService {
     message?: string
   ): Promise<AxiosResponse<Release>> {
     const body = { status, userId, message };
-    return await api.patch(`/${releaseId}/status`, body);
+    return await api.patch(`/releases/${releaseId}/status`, body);
   }
 
   // 5. Получение релиза по ID
   static async getReleaseById(
     releaseId: string
   ): Promise<AxiosResponse<Release>> {
-    return await api.get(`/${releaseId}`);
+    return await api.get(`/releases/${releaseId}`);
   }
 
   // 6. Получение релизов по артистам
@@ -51,7 +52,7 @@ export default class ReleaseService {
     const cleanedParams = Object.fromEntries(
       Object.entries(queryParams).filter(([_, value]) => value !== undefined)
     );
-    return await api.get(`/artists/${ids}`, { params: cleanedParams });
+    return await api.get(`/releases/artists/${ids}`, { params: cleanedParams });
   }
 
   // 7. Получение всех релизов
@@ -61,6 +62,6 @@ export default class ReleaseService {
     const cleanedParams = Object.fromEntries(
       Object.entries(queryParams).filter(([_, value]) => value !== undefined)
     );
-    return await api.get(`/`, { params: cleanedParams });
+    return await api.get(`/releases`, { params: cleanedParams });
   }
 }

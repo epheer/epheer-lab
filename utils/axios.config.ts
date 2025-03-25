@@ -1,29 +1,27 @@
-import axios from "axios";
-import { type AuthResponse } from "~/types/user/AuthResponse";
+import axios from 'axios';
+import { type AuthResponse } from '~/types/user/AuthResponse';
 
 const api = axios.create({
-  baseURL: "https://api.epheer.ru/v1/",
+  baseURL: 'http://localhost:3001/v1/',
   withCredentials: true,
 });
 
-api.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+api.interceptors.request.use(config => {
+  config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
   return config;
 });
 
 function shouldHandleAuthError(error: any): boolean {
   return (
-    error.response?.status === 401 &&
-    error.config &&
-    !error.config._isRetry
+    error.response?.status === 401 && error.config && !error.config._isRetry
   );
 }
 
 api.interceptors.response.use(
-  (config) => {
+  config => {
     return config;
   },
-  async (error) => {
+  async error => {
     const originalRequest = error.config;
 
     if (shouldHandleAuthError(error)) {
@@ -31,7 +29,8 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.get<AuthResponse>(
-          `https://api.epheer.ru/v1/auth/refresh`, { withCredentials: true },
+          `https://api.epheer.ru/v1/auth/refresh`,
+          { withCredentials: true }
         );
 
         localStorage.setItem('token', response.data.accessToken);

@@ -12,3 +12,8 @@ export enum ReleaseType {
   EP = 'ep',
   ALBUM = 'album',
 }
+
+export interface ReleaseTypeItem {
+  label: string;
+  value: ReleaseType;
+}

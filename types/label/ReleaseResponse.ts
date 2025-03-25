@@ -1,7 +1,7 @@
 import type { Pagination } from '~/types/Pagination';
 import type { ReleaseType } from '~/constants/release';
 
-interface CreateReleaseSuccess {
+export interface CreateReleaseSuccess {
   id: string;
   artist: {
     stage_name: string;
@@ -9,7 +9,7 @@ interface CreateReleaseSuccess {
   };
 }
 
-interface ReleaseListItem {
+export interface ReleaseListItem {
   id: string;
   artist: string;
   name: string;
@@ -20,7 +20,7 @@ interface ReleaseListItem {
   status: string;
 }
 
-interface ReleaseList {
+export interface ReleaseList {
   data: ReleaseListItem;
   pagination: Pagination;
 }

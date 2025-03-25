@@ -10,4 +10,7 @@
       </div>
     </main>
   </div>
+  <section class="absolute bottom-0 left-0 w-full">
+    <AudioPlayer />
+  </section>
 </template>

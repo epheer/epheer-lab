@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import type { Release, Track } from '~/types/label/IRelease';
-import { ReleaseType } from '~/constants/release';
-import { useRoute, useRouter } from '#app';
 
-const route = useRoute();
-const releaseId = route.params.id;
-
-const track = ref<Track>({
+const track = reactive<Track>({
   index: 1,
   name: '',
   feat: [],
@@ -23,52 +18,14 @@ const track = ref<Track>({
     key: '',
     duration: 0,
   },
-  release: releaseId,
+  release: '',
 });
 
-const trackList = ref<Track[]>([]);
-
-const metadata = ref<Release>({
-  artist: {
-    user_id: '',
-    stage_name: '',
-  },
-  name: '',
-  feat: [],
-  date: undefined,
-  type: ReleaseType.SINGLE,
-  cover_key: '',
-  authors: {
-    lyricists: [''],
-    producers: [''],
-  },
-  status: {
-    label: 'draft',
-  },
-});
-
-const getNextFridayInTwoWeeks = (): Date => {
-  const today = new Date();
-  let currentDay = today.getDay();
-  let daysUntilNextFriday = (5 - currentDay + 7) % 7;
-
-  let nextFriday = new Date(today);
-  nextFriday.setDate(today.getDate() + daysUntilNextFriday);
-
-  while (nextFriday - today < 14 * 24 * 60 * 60 * 1000) {
-    nextFriday.setDate(nextFriday.getDate() + 7);
-  }
-
-  return nextFriday;
-};
-
-onMounted(() => {
-  metadata.value.date = getNextFridayInTwoWeeks();
-});
+const trackList = reactive<Track[]>([]);
 </script>
 
 <template>
-  <Stepper value="1">
+  <Stepper value="1" linear>
     <StepList>
       <Step value="1"
         ><span class="hidden lg:block">{{
@@ -87,19 +44,33 @@ onMounted(() => {
       >
     </StepList>
     <StepPanels>
-      <StepPanel v-slot="{ activateCallback }" value="1" unstyled>
-        <LabelReleaseStepReleaseMetadata
-          :name="metadata.name"
-          :feat="metadata.feat"
-          :date="metadata.date"
-          :type="metadata.type"
-          :coverkey="metadata.cover_key"
-          :authors="metadata.authors"
-          @next-step="activateCallback"
+      <StepPanel
+        v-slot="{ activateCallback }"
+        value="1"
+        unstyled
+        class="bg-ash-100"
+      >
+        <LabelReleaseStepReleaseMetadata @next-step="activateCallback('2')" />
+      </StepPanel>
+      <StepPanel
+        v-slot="{ activateCallback }"
+        value="2"
+        unstyled
+        class="bg-ash-100"
+      >
+        <LabelReleaseStepTrackList
+          :trackList="trackList"
+          :track="track"
+          @next-step="activateCallback('3')"
         />
       </StepPanel>
-      <StepPanel v-slot="{ activateCallback }" value="2" unstyled> </StepPanel>
-      <StepPanel v-slot="{ activateCallback }" value="3" unstyled> </StepPanel>
+      <StepPanel
+        v-slot="{ activateCallback }"
+        value="3"
+        unstyled
+        class="bg-ash-100"
+      >
+      </StepPanel>
     </StepPanels>
   </Stepper>
 </template>

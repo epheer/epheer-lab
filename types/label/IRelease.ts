@@ -15,14 +15,14 @@ interface HistoryEntry {
 interface CurrentStatus {
   label: ReleaseStatus;
   message?: string;
-  history: HistoryEntry[];
+  history?: HistoryEntry[];
   createdAt?: string;
   updatedAt?: string;
 }
 
 interface ArtistInfo {
-  user_id: string;
-  stage_name: string;
+  userId: string;
+  stageName: string;
 }
 
 export interface Authors {
@@ -32,7 +32,7 @@ export interface Authors {
 
 interface Lyrics {
   text?: string;
-  ttml_key?: string;
+  ttmlKey?: string;
 }
 
 interface FileInfo {
@@ -55,14 +55,15 @@ export interface Track {
 }
 
 export interface Release {
+  id: string;
   artist: ArtistInfo;
   name?: string;
   type?: ReleaseType;
   date?: string | Date;
-  cover_key?: string;
+  cover?: string;
   feat?: string[];
   authors: Authors;
-  status: CurrentStatus;
+  status?: CurrentStatus;
   upc?: string;
   tracks?: Track[];
   createdAt?: string;
